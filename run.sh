@@ -315,9 +315,9 @@ main() {
   fi
 
   chown -R www-data /app /var/www/html
-  find /app -type d -exec chmod 755 {} \;
-  find /app -type f -exec chmod 644 {} \;
-  find /app \( -type f -or -type d \) ! -group root -exec chmod g+rw {} \;
+  find /app -type d -name "node_modules" -prune -o -type d -exec chmod 755 {} \;
+  find /app -type d -name "node_modules" -prune -o -type f -exec chmod 644 {} \;
+  find /app -type d -name "node_modules" -prune -o \( -type f -or -type d \) ! -group root -exec chmod g+rw {} \;
 
   h1 "WordPress Configuration Complete!"
 

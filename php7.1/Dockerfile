@@ -1,6 +1,6 @@
 FROM php:7.1-apache
 ENV TERM=xterm
-LABEL maintainer="Derek P Sifford <dereksifford@gmail.com>" \
+LABEL maintainer="Stephan Fellhofer <stephan.fellhofer@gmail.com>" \
       version="0.17.0-php7.1"
 
 # Install base requirements & sensible defaults + required PHP extensions
@@ -41,7 +41,7 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
 # Install wp-cli, configure apache, add scripts, create install directory & symlink
 RUN curl -s \
         -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-        -o /run.sh https://raw.githubusercontent.com/visiblevc/wordpress-starter/master/run.sh \
+        -o /run.sh https://raw.githubusercontent.com/felly/wordpress-starter/master/run.sh \
     && chmod +x /usr/local/bin/wp /run.sh \
     && curl -s \
         https://raw.githubusercontent.com/wp-cli/wp-cli/master/utils/wp-completion.bash | \
