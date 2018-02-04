@@ -1,6 +1,6 @@
 {
-  "name": "visiblevc-wordpress",
-  "version": "0.17.0",
+  "name": "felly-wordpress",
+  "version": "0.17.1",
   "description": "Fork of https://github.com/visiblevc/wordpress-starter",
   "main": "index.js",
   "repository": "https://github.com/felly/wordpress-starter.git",

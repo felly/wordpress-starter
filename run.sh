@@ -257,6 +257,15 @@ check_themes() {
   fi
 
   for key in "${to_install[@]}"; do
+    #cd /app/wp-content/themes/$key
+    #php composer.phar install
+    find . -type d -name "vendor" -prune -o -name "composer.json" -exec sh -c '
+      for file do
+        dir=${file%/*}
+        cd $dir
+        php /app/composer.phar install
+      done' sh {} +
+    cd /app
     wp theme install --allow-root "$key"
     _log_last_exit_colorize "Success: $key theme install " "Error: $key theme install failed!"
   done

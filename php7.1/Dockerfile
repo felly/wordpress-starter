@@ -1,7 +1,7 @@
 FROM php:7.1-apache
 ENV TERM=xterm
 LABEL maintainer="Stephan Fellhofer <stephan.fellhofer@gmail.com>" \
-      version="0.17.0-php7.1"
+      version="0.17.1-php7.1"
 
 # Install base requirements & sensible defaults + required PHP extensions
 RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list \
@@ -15,6 +15,7 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
         unzip \
         sudo \
         vim \
+        wget \
         zip \
     && DEBIAN_FRONTEND=noninteractive apt-get -t jessie-backports install -y \
         python-certbot-apache \
@@ -41,8 +42,7 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
 # Install wp-cli, configure apache, add scripts, create install directory & symlink
 RUN curl -s \
         -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-        -o /run.sh https://raw.githubusercontent.com/felly/wordpress-starter/master/run.sh \
-    && chmod +x /usr/local/bin/wp /run.sh \
+    && chmod +x /usr/local/bin/wp \
     && curl -s \
         https://raw.githubusercontent.com/wp-cli/wp-cli/master/utils/wp-completion.bash | \
         sed -e "s/wp cli completions/wp cli completions --allow-root/" > /etc/bash_completion.d/wp-cli \
@@ -53,6 +53,12 @@ RUN curl -s \
     && mkdir -p /app ~/.wp-cli \
     && rm -fr /var/www/html \
     && ln -s /app /var/www/html
+
+COPY ./run.sh /run.sh
+RUN chmod +x /run.sh
+
+# Install composer
+RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/c1ad3667731e9c5c1a21e5835c7e6a7eedc2e1fe/web/installer -O - -q | php -- --quiet
 
 WORKDIR /app
 EXPOSE 80 443
